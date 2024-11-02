@@ -1,0 +1,47 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <form method="post" enctype="multipart/form-data">
+            <h2 class="mt-4 text-center">Редактирование профиля</h2>
+            {% csrf_token %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Номер телефона</label>
+                        {{ form.phone }}
+                        {% for error in form.phone.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Аватар</label>
+                        {{ form.avatar }}
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="Avatar" class="img-thumbnail mt-2" width="150">
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Страна</label>
+                        {{ form.country }}
+                        {% for error in form.country.errors %}
+                            <div class="alert alert-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    <a href="{% url 'users:profile' %}" class="btn btn-outline-primary">Отменить</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

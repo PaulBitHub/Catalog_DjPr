@@ -1,0 +1,43 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="container mt-4 g-4">
+        <h1 class="text-center">Регистрация</h1>
+        <p class="text-center">Заполните форму для создания учетной записи</p><br>
+
+        <div class="row g-4">
+            <div class="col-md-6 offset-md-3">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        {{ form.email }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="password1" class="form-label">Пароль</label>
+                        {{ form.password1 }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="password2" class="form-label">Подтверждение пароля</label>
+                        {{ form.password2 }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <a class="btn btn-warning ms-2" href="/">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}>

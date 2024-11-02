@@ -1,0 +1,23 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="col-12">
+    <form method="post" enctype="multipart/form-data">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8">  <!-- Центрируем и ограничиваем ширину -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.as_p }}
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            Войти
+                        </button>
+                        <a class="btn btn-warning ms-2" href="/">Назад</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

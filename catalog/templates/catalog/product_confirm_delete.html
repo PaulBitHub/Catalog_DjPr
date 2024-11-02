@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div class="col-12 mt-3">  {# Этот отступ можно регулировать #}
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post">
+                            <p class="card-text">Хотите удалить продукт "{{ object.product_name }}"?</p>
+                            <div class="card-body">
+                                {% csrf_token %}
+                            </div>
+                            <button type="submit" class="btn btn-danger">Подтвердить</button>
+                            <a class="btn btn-primary" href="{% url 'catalog:product_list' %}" role="button">Отмена</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
