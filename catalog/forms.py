@@ -48,7 +48,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 class ProductModeratorForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ("description", "category", "is_published")
+        fields = ("product_description", "category", "is_published")
         widgets = {
             "description": forms.Textarea(
                 attrs={
