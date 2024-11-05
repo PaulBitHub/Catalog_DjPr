@@ -58,16 +58,16 @@ class ProductCreateView(CreateView, LoginRequiredMixin):
             return ProductModeratorForm
         raise PermissionDenied
 
-    # def get_object(self, queryset=None):
-    #     self.object = super().get_object(queryset)
-    #     if (
-    #             self.request.user == self.object.owner
-    #             or self.request.user.groups.filter(name="moderator").exists()
-    #             or self.request.user.is_superuser
-    #     ):
-    #         return self.object
-    #
-    #     raise PermissionDenied
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if (
+                self.request.user == self.object.owner
+                or self.request.user.groups.filter(name="moderator").exists()
+                or self.request.user.is_superuser
+        ):
+            return self.object
+
+        raise PermissionDenied
 
 
 class ProductUpdateView(UpdateView):
