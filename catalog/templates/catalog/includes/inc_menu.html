@@ -7,6 +7,7 @@
         </div>
         <div class="col-sm-4 offset-md-1 py-4">
           <h4>Навигация</h4>
+          <h6>{{ user.username }}</h6>
           <ul class="list-unstyled">
             <li><a href="{% url 'catalog:product_list' %}" class="text-white">Главная</a></li>
             {% if user.is_authenticated %}
