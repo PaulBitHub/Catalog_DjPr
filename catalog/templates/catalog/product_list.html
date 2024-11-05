@@ -16,8 +16,10 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a class="btn btn-sm btn-primary" href="{% url 'catalog:product_details' product.pk %}" role="button">Посмотреть</a>
+                                {% if user == object.owner or user.has_required_perms %}
                                 <a class="btn btn-sm btn-primary" href="{% url 'catalog:product_update' product.pk %}" role="button">Редактировать</a>
                                 <a class="btn btn-sm btn-primary" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
+                                {% endif %}
                             </div>
                             <div class="d-flex flex-column align-items-end">
                                 <small class="text-muted">Просмотры: {{ product.views_counter }}</small><br>
