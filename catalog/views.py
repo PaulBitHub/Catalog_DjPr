@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
 
 
@@ -81,6 +82,30 @@ class VersionUpdateView(UpdateView):
     model = Version
     form_class = VersionForm
     success_url = reverse_lazy('catalog:product_list')
+
+    def get_form_class(self):
+        required_perms = [
+            "catalog.can_unpublish_product",
+            "catalog.can_change_description",
+            "catalog.can_change_category",
+        ]
+        user = self.request.user
+        if user == self.object.owner or user.is_superuser:
+            return ProductForm
+        if user.has_perms(required_perms):
+            return ProductModeratorForm
+        raise PermissionDenied
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if (
+                self.request.user == self.object.owner
+                or self.request.user.groups.filter(name="moderator").exists()
+                or self.request.user.is_superuser
+        ):
+            return self.object
+
+        raise PermissionDenied
 
 
 class ProductDeleteView(DeleteView):
