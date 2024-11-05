@@ -78,6 +78,11 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["product_name", "product_description", "price"]
+        permissions = [
+            ("can_unpublish_product", "Может отменить публикацию продукта"),
+            ("can_change_description", "Может изменить описание продукта"),
+            ("can_change_category", "Может изменить категорию продукта"),
+        ]
 
     def get_active_version(self):
         return self.versions.filter(is_current=True).first()
