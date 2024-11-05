@@ -45,6 +45,20 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
         return clean_data
 
+class ProductModeratorForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ("description", "category", "is_published")
+        widgets = {
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Введите описание товара",
+                }
+            ),
+            "category": forms.Select(attrs={"class": "form-select"}),
+            "is_published": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        }
 
 class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
