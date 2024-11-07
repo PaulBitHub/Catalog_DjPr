@@ -1,7 +1,10 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
+
+{% if user == user.has_required_perms or user.is_superuser %}
 <a class="btn btn-outline-success" href="{% url 'catalog:product_create' %}" role="button">Создать продукт</a>
+{% endif %}
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
