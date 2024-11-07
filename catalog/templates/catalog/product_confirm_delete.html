@@ -11,7 +11,9 @@
                             <div class="card-body">
                                 {% csrf_token %}
                             </div>
+                            {% if user == object.owner or user.has_required_perms or user.is_superuser %}
                             <button type="submit" class="btn btn-danger">Подтвердить</button>
+                            {% endif %}
                             <a class="btn btn-primary" href="{% url 'catalog:product_list' %}" role="button">Отмена</a>
                         </form>
                     </div>

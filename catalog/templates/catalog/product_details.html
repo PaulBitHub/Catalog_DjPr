@@ -16,9 +16,14 @@
           <p class="card-text">{{ object.product_description }}</p>
           <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-              <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-primary" role="button">Редактировать</a>
+              {% if user == object.owner or user.has_required_perms or user.is_superuser %}
+                <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-primary" role="button">Редактировать</a>
+              {% endif %}
               <a class="btn btn-primary" href="{% url 'catalog:product_list' %}" role="button">На главную</a>
             </div>
+          </div>
+          <div class="text-muted" style="position: absolute; bottom: 10px; right: 10px;">
+            <small>Владелец: {{ object.owner.email }}</small>
           </div>
         </div>
       </div>
@@ -27,7 +32,6 @@
 </div>
 
 <script>
-  // Переместить скролл вниз страницы при загрузке
   window.onload = function() {
       window.scrollTo(0, document.body.scrollHeight);
   };

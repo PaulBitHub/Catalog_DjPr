@@ -7,10 +7,12 @@
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header">
                         <h4 class="my-0 fw-normal">
+                            {% if user == object.owner or user.has_required_perms or user.is_superuser %}
                             {% if object %}
                                 Редактировать продукт
                             {% else %}
                                 Создать новый продукт
+                            {% endif %}
                             {% endif %}
                         </h4>
                     </div>
