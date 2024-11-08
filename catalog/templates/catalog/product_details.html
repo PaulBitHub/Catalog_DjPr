@@ -18,6 +18,7 @@
             <div class="btn-group">
               {% if user == object.owner or user.has_required_perms or user.is_superuser %}
                 <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-primary" role="button">Редактировать</a>
+                <a class="btn btn-danger" href="{% url 'catalog:product_delete' product.pk %}" role="button">Удалить</a>
               {% endif %}
               <a class="btn btn-primary" href="{% url 'catalog:product_list' %}" role="button">На главную</a>
             </div>
