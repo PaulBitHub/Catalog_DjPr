@@ -9,8 +9,8 @@ An online store project that will be finalized in each lesson throughout the cou
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/RomanPecheritsa/NextGenStore
-cd NextGenStore
+git clone [https://github.com/PaulBitHub/Catalog_DjPr]
+cd Catalog_DjPr
 ```
 ### 2. Copy the env.example file to .env:
 
