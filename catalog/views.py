@@ -6,24 +6,26 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.mixins import CustomLoginRequiredMixin
 from catalog.models import Product, Version
+from catalog.services import get_categories_from_cache
 
 
 class ProductListView(ListView):
     model = Product
+    paginate_by = 6
+    ordering = ["-created_at"]
 
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-        for product in context_data['product_list']:
-            active_version = Version.objects.filter(product=product, is_current=True)
-            if active_version:
-                product.active_version = active_version.last().version_name
-            else:
-                product.active_version = 'Отсутствует'
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        category = self.request.GET.get('category')
+        if category:
+            queryset = queryset.filter(category__name=category)
+        queryset = queryset.filter(is_published=True)
+        return queryset
 
-            product.can_unpublish = self.request.user.has_perm('catalog.can_unpublish_product')
-            product.can_edit_as_moderator = self.request.user.has_perm('catalog.can_change_product_description') or \
-                                            self.request.user.has_perm('catalog.can_change_product_category')
-        return context_data
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = get_categories_from_cache()
+        return context
 
 class ProductDetailView(DetailView):
     model = Product
