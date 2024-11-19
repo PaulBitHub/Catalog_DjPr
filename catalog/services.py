@@ -1,6 +1,6 @@
 from django.core.cache import cache
 
-from catalog.models import Product
+from catalog.models import Product, Category
 from config.settings import  CACHES_ENABLE
 
 
@@ -19,3 +19,16 @@ def get_products_from_cache():
     products = Product.objects.all()
     cache.set(key, products)
     return products
+
+def get_categories_from_cache():
+    if not CACHES_ENABLE:
+        return Category.objects.all()
+
+    key = f'categories_list'
+    categories = cache.get(key)
+
+    if categories is None:
+        categories = Category.objects.all()
+        cache.set(key, categories)
+
+    return categories
